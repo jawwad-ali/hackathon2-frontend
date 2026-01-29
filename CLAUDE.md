@@ -208,3 +208,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- TypeScript 5.x (strict mode) + Next.js 16.x, React 19.x, @openai/chatkit-react, react-markdown, lucide-react (001-streaming-chat-interface)
+- N/A (ephemeral session, no persistence) (001-streaming-chat-interface)
+
+## Recent Changes
+- 001-streaming-chat-interface: Added TypeScript 5.x (strict mode) + Next.js 16.x, React 19.x, @openai/chatkit-react, react-markdown, lucide-react
