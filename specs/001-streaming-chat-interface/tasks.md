@@ -26,11 +26,11 @@
 
 **Purpose**: Install dependencies and create foundational types/configuration
 
-- [ ] T001 Install required dependencies: `npm install @openai/chatkit-react react-markdown remark-gfm lucide-react`
-- [ ] T002 [P] Create TypeScript types in app/chat/_lib/types.ts (Message, ToolExecution, StreamState, component props)
-- [ ] T003 [P] Create chat configuration in app/chat/_lib/config.ts (apiUrl from NEXT_PUBLIC_CHAT_API_URL)
-- [ ] T004 [P] Create constants in app/chat/_lib/constants.ts (EXAMPLE_PROMPTS array)
-- [ ] T005 [P] Create .env.local with NEXT_PUBLIC_CHAT_API_URL=http://localhost:8000/chat/stream
+- [x] T001 Install required dependencies: `npm install @openai/chatkit-react react-markdown remark-gfm lucide-react`
+- [x] T002 [P] Create TypeScript types in app/chat/_lib/types.ts (Message, ToolExecution, StreamState, component props)
+- [x] T003 [P] Create chat configuration in app/chat/_lib/config.ts (apiUrl from NEXT_PUBLIC_CHAT_API_URL)
+- [x] T004 [P] Create constants in app/chat/_lib/constants.ts (EXAMPLE_PROMPTS array)
+- [x] T005 [P] Create .env.local with NEXT_PUBLIC_CHAT_API_URL=http://localhost:8000/chat/stream
 
 ---
 
