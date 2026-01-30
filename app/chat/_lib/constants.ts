@@ -1,16 +1,16 @@
 
 export const EXAMPLE_PROMPTS = [
-  'What can you help me with?',
-  'Add a new todo item',
-  'Show me my todo list',
-  'Help me organize my tasks',
+  'Add a high priority task to call mom tomorrow',
+  'Show me all my active todos',
+  'Search for todos about shopping',
+  'Mark todo #1 as completed',
 ] as const;
 
 export type ExamplePrompt = (typeof EXAMPLE_PROMPTS)[number];
 
 export const UI_TEXT = {
   welcomeTitle: 'AI Todo Assistant',
-  welcomeSubtitle: 'How can I help you today?',
+  welcomeSubtitle: 'I can help you create, search, update, and organize your todos.',
   inputPlaceholder: 'Type a message...',
   thinkingText: 'Thinking...',
   newChatButton: 'New Chat',
@@ -23,6 +23,7 @@ export const TOOL_DISPLAY_NAMES: Record<string, string> = {
   create_todo: 'Creating todo...',
   delete_todo: 'Deleting todo...',
   list_todos: 'Fetching todos...',
+  search_todos: 'Searching todos...',
   default: 'Processing...',
 };
 
@@ -39,6 +40,7 @@ export const TOOL_ERROR_MESSAGES: Record<string, string> = {
   create_todo: 'Unable to create the todo item. Please try again.',
   delete_todo: 'Unable to delete the todo item. Please try again.',
   list_todos: 'Unable to fetch your todos. Please try again.',
+  search_todos: 'Unable to search your todos. Please try again.',
   default: 'Something went wrong. Please try again.',
 };
 

@@ -43,7 +43,7 @@ export function WelcomeScreen({ onPromptClick }: WelcomeScreenProps) {
       </p>
 
       {/* Example prompts - stack on mobile, wrap on larger screens */}
-      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 justify-center w-full sm:max-w-lg">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 justify-center w-full sm:max-w-lg mb-4 sm:mb-6">
         {EXAMPLE_PROMPTS.map((prompt) => (
           <button
             key={prompt}
@@ -61,6 +61,11 @@ export function WelcomeScreen({ onPromptClick }: WelcomeScreenProps) {
           </button>
         ))}
       </div>
+
+      {/* Tip about stateless nature */}
+      <p className="text-xs text-gray-400 max-w-xs">
+        <span className="font-medium">Tip:</span> Be specific in each message — include todo IDs or details for best results.
+      </p>
     </div>
   );
 }

@@ -4,7 +4,8 @@
       "WebSearch",
       "WebFetch(domain:platform.openai.com)",
       "WebFetch(domain:openai.github.io)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(tree:*)"
     ]
   }
 }

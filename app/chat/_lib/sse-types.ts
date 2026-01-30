@@ -52,11 +52,13 @@ export interface ResponseDeltaEventData {
 /**
  * Sent when an error occurs
  * event: error
- * data: {"message": "error description", "code": "error_code"}
+ * data: {"message": "error description", "code": "error_code", "error_type": "...", "recoverable": true}
  */
 export interface ErrorEventData {
   message: string;
-  code: string;
+  code?: string;
+  error_type?: string;
+  recoverable?: boolean;
 }
 
 /**

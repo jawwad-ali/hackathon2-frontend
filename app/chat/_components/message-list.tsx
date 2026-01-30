@@ -26,6 +26,7 @@ export function MessageList({
   isLoading,
   streamState,
   onPromptClick,
+  onRetry,
 }: MessageListProps) {
   const { scrollRef, endRef } = useAutoScroll({
     threshold: 100,
@@ -67,7 +68,7 @@ export function MessageList({
         {/* Tool execution indicator - uses dedicated ToolStatus component */}
         {currentTool && <ToolStatus tool={currentTool} />}
 
-        {/* Error state */}
+        {/* Error state with conditional retry button */}
         {hasError && streamState.status === 'error' && (
           <div
             className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg"
@@ -94,6 +95,16 @@ export function MessageList({
                 {streamState.error.message}
               </p>
             </div>
+            {/* Only show retry button when error is retryable */}
+            {streamState.error.retryable && onRetry && (
+              <button
+                type="button"
+                onClick={onRetry}
+                className="px-3 py-1.5 text-sm font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              >
+                Retry
+              </button>
+            )}
           </div>
         )}
 

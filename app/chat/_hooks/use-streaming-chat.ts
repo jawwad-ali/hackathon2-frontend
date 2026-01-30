@@ -272,9 +272,10 @@ export function useStreamingChat(): UseStreamingChatReturn {
                 case 'error': {
                   const errorData = event.data;
                   const error: MessageError = {
-                    code: errorData.code,
+                    code: errorData.code || errorData.error_type || 'unknown',
                     message: errorData.message,
-                    retryable: true, // Assume retryable by default
+                    // Use backend's recoverable flag, default to true if not provided
+                    retryable: errorData.recoverable ?? true,
                   };
 
                   stateRef.current.streamState = { status: 'error', error };

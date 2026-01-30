@@ -15,21 +15,22 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Row: Header + Sidebar User Profile aligned */}
-      {/* Hidden on mobile - chat takes full screen */}
-      <div className="hidden sm:flex max-w-[1400px] mx-auto px-4 sm:px-6">
-        {/* Header (Logo + Nav) */}
-        <div className="flex-1">
-          <Header />
-        </div>
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* Header Row - fixed height, hidden on mobile */}
+      <div className="hidden sm:block shrink-0">
+        <div className="flex max-w-[1400px] mx-auto px-4 sm:px-6">
+          {/* Header (Logo + Nav) */}
+          <div className="flex-1">
+            <Header />
+          </div>
 
-        {/* Sidebar area spacer - only on large screens */}
-        <div className="hidden lg:block w-[300px] shrink-0" />
+          {/* Sidebar area spacer - only on large screens */}
+          <div className="hidden lg:block w-[300px] shrink-0" />
+        </div>
       </div>
 
-      {/* Main Content Row */}
-      <div className="flex max-w-[1400px] mx-auto px-0 sm:px-4 md:px-6 gap-0 sm:gap-4 md:gap-6">
+      {/* Main Content Row - takes remaining height */}
+      <div className="flex flex-1 max-w-[1400px] w-full mx-auto px-0 sm:px-4 md:px-6 gap-0 sm:gap-4 md:gap-6 sm:pb-6">
         {/* Center: Chat Window with streaming integration */}
         {/* Full width on mobile, flex on larger screens */}
         <ChatWindow />

@@ -71,6 +71,7 @@ export interface MessageListProps {
   isLoading: boolean;
   streamState: StreamState;
   onPromptClick: (prompt: string) => void;
+  onRetry?: () => void;
 }
 
 export interface NewChatButtonProps {

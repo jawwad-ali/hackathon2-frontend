@@ -4,7 +4,8 @@ import { useCallback } from 'react';
 import { Trash2, Plus } from 'lucide-react';
 import { ChatInput } from './chat-input';
 import { MessageList } from './message-list';
-import { useStreamingChat } from '../_hooks';
+import { HealthBanner } from './health-banner';
+import { useStreamingChat, useHealthCheck } from '../_hooks';
 import type { ChatWindowProps } from '../_lib/types';
 
 /**
@@ -18,12 +19,16 @@ import type { ChatWindowProps } from '../_lib/types';
  * - Shows streaming state (thinking indicator, tool status, errors)
  */
 export function ChatWindow({ className }: ChatWindowProps) {
+  // Check backend health on mount
+  const healthCheck = useHealthCheck();
+
   const {
     messages,
     streamState,
     sendMessage,
     clearMessages,
     isStreaming,
+    retryLastMessage,
   } = useStreamingChat();
 
   const handleSendMessage = useCallback(
@@ -48,10 +53,17 @@ export function ChatWindow({ className }: ChatWindowProps) {
     [sendMessage]
   );
 
+  const handleRetry = useCallback(() => {
+    retryLastMessage();
+  }, [retryLastMessage]);
+
   return (
     <div
-      className={`flex flex-col flex-1 bg-white rounded-none sm:rounded-2xl shadow-sm overflow-hidden h-[calc(100vh-56px)] sm:h-[calc(100vh-64px-48px)] mt-0 sm:mt-5 ${className || ''}`}
+      className={`flex flex-col flex-1 bg-white rounded-none sm:rounded-2xl shadow-sm overflow-hidden h-[calc(100vh-56px)] sm:h-auto ${className || ''}`}
     >
+      {/* Health status banner - shows when backend is degraded or unavailable */}
+      <HealthBanner status={healthCheck.status} message={healthCheck.message} />
+
       {/* Title Bar - responsive padding and text */}
       <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-5 border-b border-gray-200">
         <h1 className="text-lg sm:text-xl font-semibold text-gray-900">Super Chat</h1>
@@ -88,6 +100,7 @@ export function ChatWindow({ className }: ChatWindowProps) {
         isLoading={isStreaming}
         streamState={streamState}
         onPromptClick={handlePromptClick}
+        onRetry={handleRetry}
       />
 
       {/* Input Area - responsive padding */}
