@@ -135,9 +135,9 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Implementation for User Story 4
 
-- [ ] T016 [US4] Integrate react-markdown with remark-gfm into MessageBubble component in app/chat/_components/message-bubble.tsx
-- [ ] T017 [US4] Add Tailwind prose styling for markdown content (headings, lists, code blocks)
-- [ ] T018 [US4] Style code blocks with monospace font, background color, and proper padding
+- [x] T016 [US4] Integrate react-markdown with remark-gfm into MessageBubble component in app/chat/_components/message-bubble.tsx
+- [x] T017 [US4] Add Tailwind prose styling for markdown content (headings, lists, code blocks)
+- [x] T018 [US4] Style code blocks with monospace font, background color, and proper padding
 
 **Checkpoint**: Markdown content renders beautifully in agent responses
 
@@ -149,9 +149,9 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Welcome Screen (FR-012)
 
-- [ ] T019 [P] Create WelcomeScreen component in app/chat/_components/welcome-screen.tsx with example prompts from constants
-- [ ] T020 Integrate WelcomeScreen into MessageList, show when conversation is empty
-- [ ] T021 Implement clickable example prompts that send the message on click
+- [x] T019 [P] Create WelcomeScreen component in app/chat/_components/welcome-screen.tsx with example prompts from constants
+- [x] T020 Integrate WelcomeScreen into MessageList, show when conversation is empty
+- [x] T021 Implement clickable example prompts that send the message on click
 
 ### Error Handling with Retry (FR-009)
 

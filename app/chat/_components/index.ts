@@ -13,6 +13,7 @@ export { AssistantMessage } from './assistant-message';
 export { UserMessage } from './user-message';
 export { ThinkingIndicator } from './thinking-indicator';
 export { ToolStatus } from './tool-status';
+export { WelcomeScreen } from './welcome-screen';
 
 // Sidebar Components
 export { HistoryChat } from './history-chat';
