@@ -2,6 +2,7 @@
 
 import { AssistantMessage } from './assistant-message';
 import { UserMessage } from './user-message';
+import { ThinkingIndicator } from './thinking-indicator';
 import { useAutoScroll } from '../_hooks';
 import type { MessageListProps } from '../_lib/types';
 import type { ToolExecution } from '../_lib/types';
@@ -99,20 +100,8 @@ export function MessageList({
           )
         )}
 
-        {/* Thinking indicator */}
-        {showThinking && (
-          <div className="flex items-center gap-3 text-gray-500">
-            <div className="flex items-center justify-center w-9 h-9 bg-emerald-500 rounded-full shrink-0">
-              <div
-                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-                aria-hidden="true"
-              />
-            </div>
-            <span className="text-sm" aria-live="polite">
-              Thinking...
-            </span>
-          </div>
-        )}
+        {/* Thinking indicator - uses dedicated component with smooth animations */}
+        <ThinkingIndicator visible={showThinking} />
 
         {/* Tool execution indicator */}
         {currentTool && (

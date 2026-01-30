@@ -93,9 +93,9 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Implementation for User Story 2
 
-- [ ] T009 [P] [US2] Create ThinkingIndicator component in app/chat/_components/thinking-indicator.tsx with animated spinner and "thinking..." text
-- [ ] T010 [US2] Integrate ThinkingIndicator into MessageList, show when streamState is 'thinking'
-- [ ] T011 [US2] Add smooth CSS transitions for thinking indicator appearance/disappearance
+- [x] T009 [P] [US2] Create ThinkingIndicator component in app/chat/_components/thinking-indicator.tsx with animated spinner and "thinking..." text
+- [x] T010 [US2] Integrate ThinkingIndicator into MessageList, show when streamState is 'thinking'
+- [x] T011 [US2] Add smooth CSS transitions for thinking indicator appearance/disappearance
 
 **Checkpoint**: Thinking states display correctly during Agent reasoning
 

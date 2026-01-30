@@ -11,6 +11,7 @@ export { MessageBubble } from './message-bubble';
 export { MessageList } from './message-list';
 export { AssistantMessage } from './assistant-message';
 export { UserMessage } from './user-message';
+export { ThinkingIndicator } from './thinking-indicator';
 
 // Sidebar Components
 export { HistoryChat } from './history-chat';
