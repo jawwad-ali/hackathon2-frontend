@@ -7,6 +7,8 @@
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
+**IMPORTANT**: This task list has been regenerated after determining that `@openai/chatkit-react` is **incompatible** with the backend's custom SSE protocol. The implementation now uses a custom streaming solution that directly consumes the backend's SSE events (`thinking`, `tool_call`, `response_delta`, `error`, `done`).
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
@@ -20,17 +22,26 @@
 - Types and config: `app/chat/_lib/`
 - Custom hooks: `app/chat/_hooks/`
 
+## Existing Components (KEEP)
+
+The following were created before the ChatKit compatibility issue was discovered and remain valid:
+
+- `app/chat/_components/chat-input.tsx` - Uncontrolled textarea with useRef
+- `app/chat/_components/message-bubble.tsx` - Basic message display
+- `app/chat/_components/index.ts` - Barrel export
+- `app/chat/_hooks/use-auto-scroll.ts` - IntersectionObserver-based auto-scroll
+- `app/chat/_lib/types.ts` - TypeScript interfaces
+- `app/chat/_lib/config.ts` - Chat configuration
+- `app/chat/_lib/constants.ts` - Example prompts and UI text
+
 ---
 
-## Phase 1: Setup (Shared Infrastructure)
+## Phase 1: Setup (Custom SSE Infrastructure)
 
-**Purpose**: Install dependencies and create foundational types/configuration
+**Purpose**: Create the custom streaming infrastructure to replace ChatKit
 
-- [x] T001 Install required dependencies: `npm install @openai/chatkit-react react-markdown remark-gfm lucide-react`
-- [x] T002 [P] Create TypeScript types in app/chat/_lib/types.ts (Message, ToolExecution, StreamState, component props)
-- [x] T003 [P] Create chat configuration in app/chat/_lib/config.ts (apiUrl from NEXT_PUBLIC_CHAT_API_URL)
-- [x] T004 [P] Create constants in app/chat/_lib/constants.ts (EXAMPLE_PROMPTS array)
-- [x] T005 [P] Create .env.local with NEXT_PUBLIC_CHAT_API_URL=http://localhost:8000/chat/stream
+- [ ] T001 Create SSE event types in app/chat/_lib/sse-types.ts (thinking, tool_call, response_delta, error, done)
+- [ ] T002 Create useStreamingChat hook in app/chat/_hooks/use-streaming-chat.ts with fetch + SSE parsing
 
 ---
 
@@ -40,11 +51,10 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Create ChatWindow client component shell in app/chat/_components/chat-window.tsx with useChatKit hook integration
-- [ ] T007 Update app/page.tsx to import and render ChatWindow component (Server Component wrapper)
-- [ ] T008 Create auto-scroll hook in app/chat/_hooks/use-auto-scroll.ts (useRef pattern, no useState)
+- [ ] T003 Create ChatWindow client component in app/chat/_components/chat-window.tsx integrating useStreamingChat hook
+- [ ] T004 Update app/page.tsx to import and render the new ChatWindow component
 
-**Checkpoint**: Foundation ready - ChatKit connected, basic rendering works
+**Checkpoint**: Foundation ready - custom streaming connected, basic rendering works
 
 ---
 
@@ -62,12 +72,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Create ChatInput component in app/chat/_components/chat-input.tsx with useRef pattern (uncontrolled textarea, no useState)
-- [ ] T010 [US1] Create MessageBubble component in app/chat/_components/message-bubble.tsx (basic text display, user/assistant styling)
-- [ ] T011 [US1] Create MessageList component in app/chat/_components/message-list.tsx with auto-scroll integration
-- [ ] T012 [US1] Integrate ChatInput and MessageList into ChatWindow with sendMessage handler
-- [ ] T013 [US1] Implement input disabling during active streaming in ChatWindow
-- [ ] T014 [US1] Add responsive styling (mobile 375px to desktop 1920px) to all US1 components
+- [ ] T005 [US1] Create MessageList component in app/chat/_components/message-list.tsx with auto-scroll integration
+- [ ] T006 [US1] Integrate ChatInput and MessageList into ChatWindow with sendMessage handler
+- [ ] T007 [US1] Implement input disabling during active streaming in ChatWindow
+- [ ] T008 [US1] Add responsive styling (mobile 375px to desktop 1920px) to all US1 components
 
 **Checkpoint**: Core chat functionality works - users can send messages and receive streaming responses
 
@@ -85,9 +93,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T015 [P] [US2] Create ThinkingIndicator component in app/chat/_components/thinking-indicator.tsx with animated spinner and "thinking..." text
-- [ ] T016 [US2] Integrate ThinkingIndicator into MessageList, show when ChatKit signals response start but no content yet
-- [ ] T017 [US2] Add smooth CSS transitions for thinking indicator appearance/disappearance
+- [ ] T009 [P] [US2] Create ThinkingIndicator component in app/chat/_components/thinking-indicator.tsx with animated spinner and "thinking..." text
+- [ ] T010 [US2] Integrate ThinkingIndicator into MessageList, show when streamState is 'thinking'
+- [ ] T011 [US2] Add smooth CSS transitions for thinking indicator appearance/disappearance
 
 **Checkpoint**: Thinking states display correctly during Agent reasoning
 
@@ -106,10 +114,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T018 [P] [US3] Create ToolStatus component in app/chat/_components/tool-status.tsx with tool name and animated status indicator
-- [ ] T019 [US3] Parse tool_calls from ChatKit/SSE events in ChatWindow to detect tool execution
-- [ ] T020 [US3] Integrate ToolStatus into MessageList, showing during active tool calls
-- [ ] T021 [US3] Handle tool execution failures with user-friendly error messages (no technical details)
+- [ ] T012 [P] [US3] Create ToolStatus component in app/chat/_components/tool-status.tsx with tool name and animated status indicator
+- [ ] T013 [US3] Parse tool_call events from SSE stream in useStreamingChat hook
+- [ ] T014 [US3] Integrate ToolStatus into MessageList, showing during active tool calls
+- [ ] T015 [US3] Handle tool execution failures with user-friendly error messages (no technical details)
 
 **Checkpoint**: Tool execution states display correctly with status updates
 
@@ -127,9 +135,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T022 [US4] Integrate react-markdown with remark-gfm into MessageBubble component in app/chat/_components/message-bubble.tsx
-- [ ] T023 [US4] Add Tailwind prose styling for markdown content (headings, lists, code blocks)
-- [ ] T024 [US4] Style code blocks with monospace font, background color, and proper padding
+- [ ] T016 [US4] Integrate react-markdown with remark-gfm into MessageBubble component in app/chat/_components/message-bubble.tsx
+- [ ] T017 [US4] Add Tailwind prose styling for markdown content (headings, lists, code blocks)
+- [ ] T018 [US4] Style code blocks with monospace font, background color, and proper padding
 
 **Checkpoint**: Markdown content renders beautifully in agent responses
 
@@ -141,28 +149,28 @@
 
 ### Welcome Screen (FR-012)
 
-- [ ] T025 [P] Create WelcomeScreen component in app/chat/_components/welcome-screen.tsx with example prompts from constants
-- [ ] T026 Integrate WelcomeScreen into MessageList, show when conversation is empty
-- [ ] T027 Implement clickable example prompts that send the message on click
+- [ ] T019 [P] Create WelcomeScreen component in app/chat/_components/welcome-screen.tsx with example prompts from constants
+- [ ] T020 Integrate WelcomeScreen into MessageList, show when conversation is empty
+- [ ] T021 Implement clickable example prompts that send the message on click
 
 ### Error Handling with Retry (FR-009)
 
-- [ ] T028 [P] Create ErrorMessage component in app/chat/_components/error-message.tsx with retry button
-- [ ] T029 Store last user message for retry functionality in ChatWindow (local state exception allowed)
-- [ ] T030 Integrate ErrorMessage into ChatWindow, show on network/backend errors with retry action
+- [ ] T022 [P] Create ErrorMessage component in app/chat/_components/error-message.tsx with retry button
+- [ ] T023 Store last user message for retry functionality in ChatWindow (useRef pattern)
+- [ ] T024 Integrate ErrorMessage into ChatWindow, show on network/backend errors with retry action
 
 ### New Chat Button (FR-013)
 
-- [ ] T031 [P] Create NewChatButton component in app/chat/_components/new-chat-button.tsx
-- [ ] T032 Integrate NewChatButton into ChatWindow header area
-- [ ] T033 Implement conversation reset that clears messages and returns to welcome state
+- [ ] T025 [P] Create NewChatButton component in app/chat/_components/new-chat-button.tsx
+- [ ] T026 Integrate NewChatButton into ChatWindow header area
+- [ ] T027 Implement conversation reset that clears messages and returns to welcome state
 
 ### Final Polish
 
-- [ ] T034 Add dark mode support to all components (use Tailwind dark: variants)
-- [ ] T035 Add smooth transitions and subtle animations throughout UI
-- [ ] T036 Verify WCAG 2.1 AA accessibility compliance (focus states, aria labels, keyboard navigation)
-- [ ] T037 Run manual E2E test: complete happy path from welcome → send message → streaming response → new chat
+- [ ] T028 Add dark mode support to all components (use Tailwind dark: variants)
+- [ ] T029 Add smooth transitions and subtle animations throughout UI
+- [ ] T030 Verify WCAG 2.1 AA accessibility compliance (focus states, aria labels, keyboard navigation)
+- [ ] T031 Run manual E2E test: complete happy path from welcome → send message → streaming response → new chat
 
 ---
 
@@ -189,23 +197,21 @@
 
 **Within Setup (Phase 1):**
 ```
-T002 types.ts    ─┐
-T003 config.ts   ─┼─ All parallel (different files)
-T004 constants.ts─┤
-T005 .env.local  ─┘
+T001 sse-types.ts ─┬─ Can run in parallel (different files)
+T002 use-streaming-chat.ts ─┘ (T002 imports T001, so sequential recommended)
 ```
 
 **Within User Stories (after US1):**
 ```
-US2 ThinkingIndicator (T015) ─┬─ Both P2, parallel if staff available
-US3 ToolStatus (T018)        ─┘
+US2 ThinkingIndicator (T009) ─┬─ Both P2, parallel if staff available
+US3 ToolStatus (T012)        ─┘
 ```
 
 **Within Polish:**
 ```
-T025 WelcomeScreen    ─┐
-T028 ErrorMessage     ─┼─ All parallel (different files)
-T031 NewChatButton    ─┘
+T019 WelcomeScreen    ─┐
+T022 ErrorMessage     ─┼─ All parallel (different files)
+T025 NewChatButton    ─┘
 ```
 
 ---
@@ -214,9 +220,9 @@ T031 NewChatButton    ─┘
 
 ### MVP First (User Story 1 Only)
 
-1. Complete Phase 1: Setup (T001-T005)
-2. Complete Phase 2: Foundational (T006-T008)
-3. Complete Phase 3: User Story 1 (T009-T014)
+1. Complete Phase 1: Setup (T001-T002)
+2. Complete Phase 2: Foundational (T003-T004)
+3. Complete Phase 3: User Story 1 (T005-T008)
 4. **STOP and VALIDATE**: Test core chat independently
 5. Deploy/demo if ready - users can chat with the Agent!
 
@@ -232,25 +238,58 @@ T031 NewChatButton    ─┘
 
 | Phase | Task Count | Notes |
 |-------|-----------|-------|
-| Phase 1: Setup | 5 tasks | T001-T005 |
-| Phase 2: Foundational | 3 tasks | T006-T008 |
-| Phase 3: US1 (P1) | 6 tasks | T009-T014 - **MVP** |
-| Phase 4: US2 (P2) | 3 tasks | T015-T017 |
-| Phase 5: US3 (P2) | 4 tasks | T018-T021 |
-| Phase 6: US4 (P3) | 3 tasks | T022-T024 |
-| Phase 7: Polish | 13 tasks | T025-T037 |
-| **Total** | **37 tasks** | |
+| Phase 1: Setup | 2 tasks | T001-T002 |
+| Phase 2: Foundational | 2 tasks | T003-T004 |
+| Phase 3: US1 (P1) | 4 tasks | T005-T008 - **MVP** |
+| Phase 4: US2 (P2) | 3 tasks | T009-T011 |
+| Phase 5: US3 (P2) | 4 tasks | T012-T015 |
+| Phase 6: US4 (P3) | 3 tasks | T016-T018 |
+| Phase 7: Polish | 13 tasks | T019-T031 |
+| **Total** | **31 tasks** | |
 
 ### Per User Story Count
 
 | User Story | Task Count |
 |------------|-----------|
-| Setup/Foundational | 8 tasks |
-| US1 - Core Streaming | 6 tasks |
+| Setup/Foundational | 4 tasks |
+| US1 - Core Streaming | 4 tasks |
 | US2 - Thinking State | 3 tasks |
 | US3 - Tool Status | 4 tasks |
 | US4 - Markdown | 3 tasks |
 | Polish/Cross-cutting | 13 tasks |
+
+---
+
+## Backend SSE Protocol Reference
+
+The backend at `/chat/stream` uses this custom SSE protocol:
+
+**Request Format:**
+```json
+{
+  "message": "User message text",
+  "request_id": "optional-uuid",
+  "thread_id": "optional-thread-id"
+}
+```
+
+**SSE Event Types:**
+```
+event: thinking
+data: {"status": "thinking"}
+
+event: tool_call
+data: {"tool": "tool_name", "status": "executing"}
+
+event: response_delta
+data: {"content": "partial response text"}
+
+event: error
+data: {"message": "error description", "code": "error_code"}
+
+event: done
+data: {"status": "complete", "full_response": "..."}
+```
 
 ---
 
@@ -262,4 +301,4 @@ T031 NewChatButton    ─┘
 - Manual testing with backend (no automated tests requested)
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
-- **Constitution compliance**: All tasks follow Server-First, useRef patterns, ChatKit state management
+- **Constitution compliance**: All tasks follow Server-First, useRef patterns, custom SSE streaming (NOT ChatKit)

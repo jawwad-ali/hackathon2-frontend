@@ -1,0 +1,32 @@
+'use client';
+
+interface UserMessageProps {
+  content: string;
+}
+
+/**
+ * UserMessage - Right-aligned message bubble
+ *
+ * Design Specifications:
+ * - Layout: Right-aligned (justify-end)
+ * - Bubble: Dark gray background, white text
+ * - Border-radius: rounded except bottom-right
+ * - Max-width: 70%
+ */
+export function UserMessage({ content }: UserMessageProps) {
+  return (
+    <div className="flex justify-end">
+      <div
+        className="
+          max-w-[70%] px-4 py-3 bg-gray-800 text-white
+          rounded-tl-2xl rounded-tr-2xl rounded-br-sm rounded-bl-2xl
+          text-sm leading-relaxed
+        "
+      >
+        {content}
+      </div>
+    </div>
+  );
+}
+
+export default UserMessage;

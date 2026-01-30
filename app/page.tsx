@@ -1,65 +1,94 @@
-import Image from "next/image";
+'use client';
+
+import { useRef, useCallback } from 'react';
+import {
+  Header,
+  Sidebar,
+  ChatContainer,
+  ChatInput,
+  AssistantMessage,
+  UserMessage,
+  HistoryChat,
+} from './chat/_components';
+
+// Mock messages for demonstration
+const mockMessages = [
+  {
+    id: '1',
+    role: 'assistant' as const,
+    content:
+      'Artificial Intelligence (AI) refers to intelligent computer systems that can learn, reason, and perform tasks that typically require human intelligence. It involves techniques like machine learning, natural language processing, and computer vision to analyze data, make decisions, and interact with humans. AI has applications in various fields and has the potential to revolutionize industries and improve efficiency and productivity.',
+  },
+  {
+    id: '2',
+    role: 'user' as const,
+    content: 'What can Artificial Intelligence do?',
+  },
+  {
+    id: '3',
+    role: 'assistant' as const,
+    content:
+      'Artificial Intelligence (AI) can automate tasks, analyze data, understand human language, recognize images, personalize recommendations, detect fraud, assist in healthcare, power virtual assistants, and enable autonomous systems. Its capabilities continue to expand and advance.',
+  },
+];
 
 export default function Home() {
+  const messagesRef = useRef(mockMessages);
+
+  const handleSendMessage = useCallback((message: string) => {
+    console.log('Sending message:', message);
+  }, []);
+
+  const handleClearChat = useCallback(() => {
+    console.log('Clearing chat');
+  }, []);
+
+  const handleNewChat = useCallback(() => {
+    console.log('Starting new chat');
+  }, []);
+
+  const handleSelectHistory = useCallback((text: string) => {
+    console.log('Selected history:', text);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Row: Header + Sidebar User Profile aligned */}
+      <div className="flex max-w-[1400px] mx-auto px-6">
+        {/* Header (Logo + Nav) */}
+        <div className="flex-1">
+          <Header />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        {/* Sidebar area spacer */}
+        <div className="hidden lg:block w-[300px] shrink-0" />
+      </div>
+
+      {/* Main Content Row */}
+      <div className="flex max-w-[1400px] mx-auto px-6 gap-6">
+        {/* Center: Chat Container */}
+        <ChatContainer
+          title="Super Chat"
+          onClearChat={handleClearChat}
+          onNewChat={handleNewChat}
+          inputArea={
+            <ChatInput onSubmit={handleSendMessage} disabled={false} />
+          }
+        >
+          {messagesRef.current.map((msg) =>
+            msg.role === 'user' ? (
+              <UserMessage key={msg.id} content={msg.content} />
+            ) : (
+              <AssistantMessage key={msg.id} content={msg.content} />
+            )
+          )}
+        </ChatContainer>
+
+        {/* Right: Sidebar */}
+        <Sidebar>
+          <HistoryChat onSelectHistory={handleSelectHistory} />
+        </Sidebar>
+      </div>
     </div>
   );
 }
