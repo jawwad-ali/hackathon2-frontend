@@ -166,30 +166,82 @@ export function useStreamingChat(): UseStreamingChatReturn {
 
                 case 'tool_call': {
                   const toolData = event.data;
-                  const toolExecution: ToolExecution = {
-                    id: `tool-${Date.now()}`,
-                    name: toolData.tool,
-                    status: toolData.status === 'executing' ? 'executing' :
-                            toolData.status === 'completed' ? 'completed' : 'failed',
-                    startedAt: new Date(),
-                  };
+                  const toolStatus: ToolExecution['status'] =
+                    toolData.status === 'executing' ? 'executing' :
+                    toolData.status === 'completed' ? 'completed' : 'failed';
 
-                  stateRef.current.streamState = {
-                    status: 'tool-executing',
-                    tool: toolExecution,
-                  };
-
-                  // Update assistant message with tool call
+                  // Find the assistant message
                   const msgIndex = stateRef.current.messages.findIndex(
                     (m) => m.id === assistantMessageId
                   );
+
                   if (msgIndex !== -1) {
                     const msg = stateRef.current.messages[msgIndex];
                     const existingTools = msg.toolCalls || [];
+
+                    // Check if this tool already exists (by name) to update its status
+                    const existingToolIndex = existingTools.findIndex(
+                      (t) => t.name === toolData.tool && t.status === 'executing'
+                    );
+
+                    let updatedTools: ToolExecution[];
+                    let currentToolExecution: ToolExecution;
+
+                    if (existingToolIndex !== -1 && (toolStatus === 'completed' || toolStatus === 'failed')) {
+                      // Update existing tool's status (completion/failure)
+                      currentToolExecution = {
+                        ...existingTools[existingToolIndex],
+                        status: toolStatus,
+                        completedAt: new Date(),
+                      };
+                      updatedTools = [
+                        ...existingTools.slice(0, existingToolIndex),
+                        currentToolExecution,
+                        ...existingTools.slice(existingToolIndex + 1),
+                      ];
+                    } else if (toolStatus === 'executing') {
+                      // New tool execution starting
+                      currentToolExecution = {
+                        id: `tool-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                        name: toolData.tool,
+                        status: 'executing',
+                        startedAt: new Date(),
+                      };
+                      updatedTools = [...existingTools, currentToolExecution];
+                    } else {
+                      // Fallback: create new tool entry (for completed/failed without prior executing)
+                      currentToolExecution = {
+                        id: `tool-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                        name: toolData.tool,
+                        status: toolStatus,
+                        startedAt: new Date(),
+                        completedAt: new Date(),
+                      };
+                      updatedTools = [...existingTools, currentToolExecution];
+                    }
+
+                    // Update message with tool calls
                     stateRef.current.messages[msgIndex] = {
                       ...msg,
-                      toolCalls: [...existingTools, toolExecution],
+                      toolCalls: updatedTools,
                     };
+
+                    // Update stream state based on tool status
+                    if (toolStatus === 'executing') {
+                      stateRef.current.streamState = {
+                        status: 'tool-executing',
+                        tool: currentToolExecution,
+                      };
+                    } else if (toolStatus === 'completed') {
+                      // Tool completed, transition back to thinking/streaming
+                      stateRef.current.streamState = { status: 'thinking' };
+                    } else if (toolStatus === 'failed') {
+                      // Tool failed - keep showing it briefly, then continue
+                      stateRef.current.streamState = {
+                        status: 'tool-executing',
+                        tool: currentToolExecution,
+                      };
+                    }
                   }
                   triggerUpdate();
                   break;

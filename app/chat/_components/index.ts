@@ -12,6 +12,7 @@ export { MessageList } from './message-list';
 export { AssistantMessage } from './assistant-message';
 export { UserMessage } from './user-message';
 export { ThinkingIndicator } from './thinking-indicator';
+export { ToolStatus } from './tool-status';
 
 // Sidebar Components
 export { HistoryChat } from './history-chat';

@@ -114,10 +114,10 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Implementation for User Story 3
 
-- [ ] T012 [P] [US3] Create ToolStatus component in app/chat/_components/tool-status.tsx with tool name and animated status indicator
-- [ ] T013 [US3] Parse tool_call events from SSE stream in useStreamingChat hook
-- [ ] T014 [US3] Integrate ToolStatus into MessageList, showing during active tool calls
-- [ ] T015 [US3] Handle tool execution failures with user-friendly error messages (no technical details)
+- [x] T012 [P] [US3] Create ToolStatus component in app/chat/_components/tool-status.tsx with tool name and animated status indicator
+- [x] T013 [US3] Parse tool_call events from SSE stream in useStreamingChat hook
+- [x] T014 [US3] Integrate ToolStatus into MessageList, showing during active tool calls
+- [x] T015 [US3] Handle tool execution failures with user-friendly error messages (no technical details)
 
 **Checkpoint**: Tool execution states display correctly with status updates
 
