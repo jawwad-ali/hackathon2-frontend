@@ -15,6 +15,8 @@ export { ThinkingIndicator } from './thinking-indicator';
 export { ToolStatus } from './tool-status';
 export { WelcomeScreen } from './welcome-screen';
 export { HealthBanner } from './health-banner';
+export { ErrorMessage } from './error-message';
+export { NewChatButton } from './new-chat-button';
 
 // Sidebar Components
 export { HistoryChat } from './history-chat';

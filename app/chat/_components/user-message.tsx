@@ -18,7 +18,8 @@ export function UserMessage({ content }: UserMessageProps) {
     <div className="flex justify-end">
       <div
         className="
-          max-w-[85%] sm:max-w-[70%] px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 text-white
+          max-w-[85%] sm:max-w-[70%] px-3 sm:px-4 py-2 sm:py-3
+          bg-gray-800 dark:bg-emerald-600 text-white
           rounded-tl-2xl rounded-tr-2xl rounded-br-sm rounded-bl-2xl
           text-sm leading-relaxed break-words
         "

@@ -5,6 +5,7 @@ import { UserMessage } from './user-message';
 import { ThinkingIndicator } from './thinking-indicator';
 import { ToolStatus } from './tool-status';
 import { WelcomeScreen } from './welcome-screen';
+import { ErrorMessage } from './error-message';
 import { useAutoScroll } from '../_hooks';
 import type { MessageListProps } from '../_lib/types';
 import type { ToolExecution } from '../_lib/types';
@@ -68,44 +69,9 @@ export function MessageList({
         {/* Tool execution indicator - uses dedicated ToolStatus component */}
         {currentTool && <ToolStatus tool={currentTool} />}
 
-        {/* Error state with conditional retry button */}
-        {hasError && streamState.status === 'error' && (
-          <div
-            className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg"
-            role="alert"
-          >
-            <div className="flex items-center justify-center w-8 h-8 bg-red-100 rounded-full shrink-0">
-              <svg
-                className="w-4 h-4 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-red-800">
-                {streamState.error.message}
-              </p>
-            </div>
-            {/* Only show retry button when error is retryable */}
-            {streamState.error.retryable && onRetry && (
-              <button
-                type="button"
-                onClick={onRetry}
-                className="px-3 py-1.5 text-sm font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-              >
-                Retry
-              </button>
-            )}
-          </div>
+        {/* Error state - uses dedicated ErrorMessage component (T022) */}
+        {hasError && streamState.status === 'error' && onRetry && (
+          <ErrorMessage error={streamState.error} onRetry={onRetry} />
         )}
 
         {/* End marker for auto-scroll */}

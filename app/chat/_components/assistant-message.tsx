@@ -144,7 +144,8 @@ export function AssistantMessage({ content, isStreaming }: AssistantMessageProps
       {/* Content Bubble - wider on mobile for readability */}
       <div
         className={`
-          max-w-[85%] sm:max-w-[70%] px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 text-gray-900
+          max-w-[85%] sm:max-w-[70%] px-3 sm:px-4 py-2 sm:py-3
+          bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-zinc-100
           rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl
           text-sm leading-relaxed break-words
           ${isStreaming ? 'animate-pulse' : ''}

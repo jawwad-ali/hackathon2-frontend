@@ -53,7 +53,7 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit}>
       {/* Input Container - responsive padding */}
-      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-xl bg-white">
+      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800">
         {/* Textarea - completely borderless with inline style override */}
         <textarea
           ref={textareaRef}
@@ -65,13 +65,13 @@ export function ChatInput({
           aria-label="Message input"
           aria-disabled={disabled}
           style={{ outline: 'none', boxShadow: 'none', border: 'none' }}
-          className="w-full resize-none bg-transparent text-sm text-gray-900 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50 min-h-[24px] max-h-[100px] sm:max-h-[120px] !outline-none !ring-0 !border-0"
+          className="w-full resize-none bg-transparent text-sm text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:placeholder:text-zinc-500 disabled:cursor-not-allowed disabled:opacity-50 min-h-[24px] max-h-[100px] sm:max-h-[120px] !outline-none !ring-0 !border-0"
         />
 
         {/* Bottom Row */}
         <div className="flex items-center justify-between">
           {/* Hint Text - shows different text when disabled */}
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-gray-400 dark:text-zinc-500">
             {disabled ? 'Waiting for response...' : 'Press Enter to send'}
           </span>
 

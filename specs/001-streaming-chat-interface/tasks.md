@@ -155,15 +155,15 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Error Handling with Retry (FR-009)
 
-- [ ] T022 [P] Create ErrorMessage component in app/chat/_components/error-message.tsx with retry button
-- [ ] T023 Store last user message for retry functionality in ChatWindow (useRef pattern)
-- [ ] T024 Integrate ErrorMessage into ChatWindow, show on network/backend errors with retry action
+- [x] T022 [P] Create ErrorMessage component in app/chat/_components/error-message.tsx with retry button
+- [x] T023 Store last user message for retry functionality in ChatWindow (useRef pattern)
+- [x] T024 Integrate ErrorMessage into ChatWindow, show on network/backend errors with retry action
 
 ### New Chat Button (FR-013)
 
-- [ ] T025 [P] Create NewChatButton component in app/chat/_components/new-chat-button.tsx
-- [ ] T026 Integrate NewChatButton into ChatWindow header area
-- [ ] T027 Implement conversation reset that clears messages and returns to welcome state
+- [x] T025 [P] Create NewChatButton component in app/chat/_components/new-chat-button.tsx
+- [x] T026 Integrate NewChatButton into ChatWindow header area
+- [x] T027 Implement conversation reset that clears messages and returns to welcome state
 
 ### Final Polish
 
