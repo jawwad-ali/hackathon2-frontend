@@ -40,8 +40,8 @@ The following were created before the ChatKit compatibility issue was discovered
 
 **Purpose**: Create the custom streaming infrastructure to replace ChatKit
 
-- [ ] T001 Create SSE event types in app/chat/_lib/sse-types.ts (thinking, tool_call, response_delta, error, done)
-- [ ] T002 Create useStreamingChat hook in app/chat/_hooks/use-streaming-chat.ts with fetch + SSE parsing
+- [x] T001 Create SSE event types in app/chat/_lib/sse-types.ts (thinking, tool_call, response_delta, error, done)
+- [x] T002 Create useStreamingChat hook in app/chat/_hooks/use-streaming-chat.ts with fetch + SSE parsing
 
 ---
 
