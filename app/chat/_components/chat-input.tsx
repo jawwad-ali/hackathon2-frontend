@@ -52,8 +52,8 @@ export function ChatInput({
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Input Container */}
-      <div className="flex flex-col gap-3 p-4 border border-gray-200 rounded-xl bg-white">
+      {/* Input Container - responsive padding */}
+      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-xl bg-white">
         {/* Textarea - completely borderless with inline style override */}
         <textarea
           ref={textareaRef}
@@ -65,23 +65,33 @@ export function ChatInput({
           aria-label="Message input"
           aria-disabled={disabled}
           style={{ outline: 'none', boxShadow: 'none', border: 'none' }}
-          className="w-full resize-none bg-transparent text-sm text-gray-900 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50 min-h-[24px] max-h-[120px] !outline-none !ring-0 !border-0"
+          className="w-full resize-none bg-transparent text-sm text-gray-900 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50 min-h-[24px] max-h-[100px] sm:max-h-[120px] !outline-none !ring-0 !border-0"
         />
 
         {/* Bottom Row */}
         <div className="flex items-center justify-between">
-          {/* Hint Text */}
-          <span className="text-xs text-gray-400">Press Enter to send</span>
+          {/* Hint Text - shows different text when disabled */}
+          <span className="text-xs text-gray-400">
+            {disabled ? 'Waiting for response...' : 'Press Enter to send'}
+          </span>
 
           {/* Send Button */}
           <button
             type="submit"
             disabled={disabled}
-            aria-label="Send message"
-            className="flex items-center justify-center w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label={disabled ? 'Sending message...' : 'Send message'}
+            aria-busy={disabled}
+            className="flex items-center justify-center w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-400 disabled:hover:bg-gray-400"
             style={{ outline: 'none' }}
           >
-            <Send size={18} aria-hidden="true" />
+            {disabled ? (
+              <div
+                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                aria-hidden="true"
+              />
+            ) : (
+              <Send size={18} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>

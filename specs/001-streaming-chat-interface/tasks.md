@@ -51,8 +51,8 @@ The following were created before the ChatKit compatibility issue was discovered
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Create ChatWindow client component in app/chat/_components/chat-window.tsx integrating useStreamingChat hook
-- [ ] T004 Update app/page.tsx to import and render the new ChatWindow component
+- [x] T003 Create ChatWindow client component in app/chat/_components/chat-window.tsx integrating useStreamingChat hook
+- [x] T004 Update app/page.tsx to import and render the new ChatWindow component
 
 **Checkpoint**: Foundation ready - custom streaming connected, basic rendering works
 
@@ -72,10 +72,10 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Create MessageList component in app/chat/_components/message-list.tsx with auto-scroll integration
-- [ ] T006 [US1] Integrate ChatInput and MessageList into ChatWindow with sendMessage handler
-- [ ] T007 [US1] Implement input disabling during active streaming in ChatWindow
-- [ ] T008 [US1] Add responsive styling (mobile 375px to desktop 1920px) to all US1 components
+- [x] T005 [US1] Create MessageList component in app/chat/_components/message-list.tsx with auto-scroll integration
+- [x] T006 [US1] Integrate ChatInput and MessageList into ChatWindow with sendMessage handler
+- [x] T007 [US1] Implement input disabling during active streaming in ChatWindow
+- [x] T008 [US1] Add responsive styling (mobile 375px to desktop 1920px) to all US1 components
 
 **Checkpoint**: Core chat functionality works - users can send messages and receive streaming responses
 

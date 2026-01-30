@@ -9,6 +9,7 @@ interface ChatContainerProps {
   inputArea?: ReactNode;
   onClearChat?: () => void;
   onNewChat?: () => void;
+  className?: string;
 }
 
 /**
@@ -28,9 +29,10 @@ export function ChatContainer({
   inputArea,
   onClearChat,
   onNewChat,
+  className,
 }: ChatContainerProps) {
   return (
-    <div className="flex flex-col flex-1 bg-white rounded-2xl shadow-sm overflow-hidden h-[calc(100vh-64px-48px)] mt-5">
+    <div className={`flex flex-col flex-1 bg-white rounded-2xl shadow-sm overflow-hidden h-[calc(100vh-64px-48px)] mt-5 ${className || ''}`}>
       {/* Title Bar */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
         <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
