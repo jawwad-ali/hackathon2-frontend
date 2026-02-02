@@ -30,7 +30,12 @@ export default function Home() {
       </div>
 
       {/* Main Content Row - takes remaining height */}
-      <div className="flex flex-1 max-w-[1400px] w-full mx-auto px-0 sm:px-4 md:px-6 gap-0 sm:gap-4 md:gap-6 sm:pb-6">
+      <main
+        id="main-content"
+        className="flex flex-1 max-w-[1400px] w-full mx-auto px-0 sm:px-4 md:px-6 gap-0 sm:gap-4 md:gap-6 sm:pb-6"
+        role="main"
+        aria-label="Chat interface"
+      >
         {/* Center: Chat Window with streaming integration */}
         {/* Full width on mobile, flex on larger screens */}
         <ChatWindow />
@@ -39,7 +44,7 @@ export default function Home() {
         <Sidebar>
           <HistoryChat onSelectHistory={handleSelectHistory} />
         </Sidebar>
-      </div>
+      </main>
     </div>
   );
 }

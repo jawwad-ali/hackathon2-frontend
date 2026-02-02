@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { Message, StreamState, ToolExecution, MessageError } from '../_lib/types';
 import type {
   SSEEvent,
@@ -64,6 +64,9 @@ function parseSSEEvent(eventType: string, dataStr: string): SSEEvent | null {
   try {
     const data = JSON.parse(dataStr);
 
+    // Debug: log all incoming SSE events
+    console.log(`SSE event [${eventType}]:`, data);
+
     switch (eventType as SSEEventType) {
       case 'thinking':
         return { type: 'thinking', data: data as ThinkingEventData };
@@ -80,7 +83,7 @@ function parseSSEEvent(eventType: string, dataStr: string): SSEEvent | null {
         return null;
     }
   } catch (e) {
-    console.error('Failed to parse SSE event data:', e);
+    console.error('Failed to parse SSE event data:', e, 'Raw data:', dataStr);
     return null;
   }
 }
@@ -99,13 +102,12 @@ export function useStreamingChat(): UseStreamingChatReturn {
     abortController: null,
   });
 
-  // Force update mechanism using useRef + callback
-  const updateCallbacksRef = useRef<Set<() => void>>(new Set());
-  const forceUpdateRef = useRef(0);
+  // Force update mechanism - useState to trigger re-renders
+  const [, setUpdateCounter] = useState(0);
 
   const triggerUpdate = useCallback(() => {
-    forceUpdateRef.current += 1;
-    updateCallbacksRef.current.forEach((cb) => cb());
+    // Increment counter to force React to re-render
+    setUpdateCounter((c) => c + 1);
   }, []);
 
   // Generate unique message ID
@@ -166,9 +168,23 @@ export function useStreamingChat(): UseStreamingChatReturn {
 
                 case 'tool_call': {
                   const toolData = event.data;
-                  const toolStatus: ToolExecution['status'] =
-                    toolData.status === 'executing' ? 'executing' :
-                    toolData.status === 'completed' ? 'completed' : 'failed';
+
+                  // Map backend status to our internal status
+                  // Backend might send: executing, started, running, pending, completed, success, done, failed, error
+                  const statusStr = (toolData.status || '').toLowerCase();
+                  let toolStatus: ToolExecution['status'];
+
+                  if (['executing', 'started', 'running', 'pending', 'in_progress'].includes(statusStr)) {
+                    toolStatus = 'executing';
+                  } else if (['completed', 'success', 'done', 'finished'].includes(statusStr)) {
+                    toolStatus = 'completed';
+                  } else if (['failed', 'error'].includes(statusStr)) {
+                    toolStatus = 'failed';
+                  } else {
+                    // Unknown status - default to executing (not failed!) to avoid showing error
+                    console.warn(`Unknown tool status: "${toolData.status}", defaulting to executing`);
+                    toolStatus = 'executing';
+                  }
 
                   // Find the assistant message
                   const msgIndex = stateRef.current.messages.findIndex(
@@ -248,7 +264,25 @@ export function useStreamingChat(): UseStreamingChatReturn {
                 }
 
                 case 'response_delta': {
-                  accumulatedContent += event.data.content;
+                  // Handle different field names the backend might use
+                  const eventDataAny = event.data as unknown as Record<string, unknown>;
+                  const deltaContent =
+                    event.data.content ??
+                    eventDataAny.text ??
+                    eventDataAny.delta ??
+                    eventDataAny.chunk ??
+                    '';
+
+                  // Debug: log the actual data received
+                  if (typeof deltaContent !== 'string' || deltaContent === '') {
+                    console.warn('response_delta received with unexpected data:', event.data);
+                  }
+
+                  // Only append if we have actual content
+                  if (typeof deltaContent === 'string' && deltaContent) {
+                    accumulatedContent += deltaContent;
+                  }
+
                   stateRef.current.streamState = {
                     status: 'streaming',
                     partialContent: accumulatedContent,
@@ -296,6 +330,18 @@ export function useStreamingChat(): UseStreamingChatReturn {
                 }
 
                 case 'done': {
+                  // Get final content from various possible fields
+                  const doneDataAny = event.data as unknown as Record<string, unknown>;
+                  const finalContent =
+                    event.data.full_response ??
+                    doneDataAny.response ??
+                    doneDataAny.content ??
+                    doneDataAny.output ??
+                    accumulatedContent;
+
+                  // Debug: log the done event data
+                  console.log('done event data:', event.data);
+
                   // Finalize the message
                   const doneMsgIdx = stateRef.current.messages.findIndex(
                     (m) => m.id === assistantMessageId
@@ -303,7 +349,7 @@ export function useStreamingChat(): UseStreamingChatReturn {
                   if (doneMsgIdx !== -1) {
                     stateRef.current.messages[doneMsgIdx] = {
                       ...stateRef.current.messages[doneMsgIdx],
-                      content: event.data.full_response || accumulatedContent,
+                      content: typeof finalContent === 'string' ? finalContent : accumulatedContent,
                       isStreaming: false,
                       thinkingState: 'complete',
                     };

@@ -18,13 +18,13 @@ interface AssistantMessageProps {
 const markdownComponents: Components = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="text-lg font-semibold text-gray-900 mt-4 mb-2 first:mt-0">{children}</h1>
+    <h1 className="text-lg font-semibold text-gray-900 dark:text-zinc-100 mt-4 mb-2 first:mt-0">{children}</h1>
   ),
   h2: ({ children }) => (
-    <h2 className="text-base font-semibold text-gray-900 mt-3 mb-2 first:mt-0">{children}</h2>
+    <h2 className="text-base font-semibold text-gray-900 dark:text-zinc-100 mt-3 mb-2 first:mt-0">{children}</h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-sm font-semibold text-gray-900 mt-3 mb-1 first:mt-0">{children}</h3>
+    <h3 className="text-sm font-semibold text-gray-900 dark:text-zinc-100 mt-3 mb-1 first:mt-0">{children}</h3>
   ),
 
   // Paragraphs
@@ -40,7 +40,7 @@ const markdownComponents: Components = {
     <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>
   ),
   li: ({ children }) => (
-    <li className="text-gray-900">{children}</li>
+    <li className="text-gray-900 dark:text-zinc-100">{children}</li>
   ),
 
   // Inline code
@@ -55,7 +55,7 @@ const markdownComponents: Components = {
 
     // Inline code
     return (
-      <code className="px-1.5 py-0.5 bg-gray-200 text-gray-800 rounded text-xs font-mono">
+      <code className="px-1.5 py-0.5 bg-gray-200 dark:bg-zinc-700 text-gray-800 dark:text-zinc-200 rounded text-xs font-mono transition-colors duration-200">
         {children}
       </code>
     );
@@ -63,7 +63,7 @@ const markdownComponents: Components = {
 
   // Code blocks (pre wraps code)
   pre: ({ children }) => (
-    <pre className="my-2 p-3 bg-gray-800 text-gray-100 rounded-lg overflow-x-auto font-mono text-xs leading-relaxed">
+    <pre className="my-2 p-3 bg-gray-800 dark:bg-zinc-900 text-gray-100 rounded-lg overflow-x-auto font-mono text-xs leading-relaxed transition-colors duration-200">
       {children}
     </pre>
   ),
@@ -72,7 +72,7 @@ const markdownComponents: Components = {
   a: ({ href, children }) => (
     <a
       href={href}
-      className="text-emerald-600 hover:text-emerald-700 underline"
+      className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 underline transition-colors duration-200"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -82,7 +82,7 @@ const markdownComponents: Components = {
 
   // Bold and italic
   strong: ({ children }) => (
-    <strong className="font-semibold text-gray-900">{children}</strong>
+    <strong className="font-semibold text-gray-900 dark:text-zinc-100">{children}</strong>
   ),
   em: ({ children }) => (
     <em className="italic">{children}</em>
@@ -90,14 +90,14 @@ const markdownComponents: Components = {
 
   // Blockquotes
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-emerald-500 pl-3 my-2 text-gray-700 italic">
+    <blockquote className="border-l-4 border-emerald-500 pl-3 my-2 text-gray-700 dark:text-zinc-300 italic">
       {children}
     </blockquote>
   ),
 
   // Horizontal rule
   hr: () => (
-    <hr className="my-3 border-gray-300" />
+    <hr className="my-3 border-gray-300 dark:border-zinc-600" />
   ),
 
   // Tables (GFM)
@@ -107,19 +107,19 @@ const markdownComponents: Components = {
     </div>
   ),
   thead: ({ children }) => (
-    <thead className="bg-gray-200">{children}</thead>
+    <thead className="bg-gray-200 dark:bg-zinc-700">{children}</thead>
   ),
   tbody: ({ children }) => (
-    <tbody className="divide-y divide-gray-200">{children}</tbody>
+    <tbody className="divide-y divide-gray-200 dark:divide-zinc-600">{children}</tbody>
   ),
   tr: ({ children }) => (
-    <tr>{children}</tr>
+    <tr className="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-zinc-700/50">{children}</tr>
   ),
   th: ({ children }) => (
-    <th className="px-2 py-1 text-left font-semibold text-gray-900 border border-gray-300">{children}</th>
+    <th className="px-2 py-1 text-left font-semibold text-gray-900 dark:text-zinc-100 border border-gray-300 dark:border-zinc-600">{children}</th>
   ),
   td: ({ children }) => (
-    <td className="px-2 py-1 text-gray-800 border border-gray-300">{children}</td>
+    <td className="px-2 py-1 text-gray-800 dark:text-zinc-200 border border-gray-300 dark:border-zinc-600">{children}</td>
   ),
 };
 
@@ -135,9 +135,13 @@ const markdownComponents: Components = {
  */
 export function AssistantMessage({ content, isStreaming }: AssistantMessageProps) {
   return (
-    <div className="flex gap-2 sm:gap-3 items-start">
+    <div
+      className="flex gap-2 sm:gap-3 items-start animate-slide-in-left"
+      role="article"
+      aria-label={isStreaming ? 'Assistant is responding' : 'Assistant message'}
+    >
       {/* Avatar - slightly smaller on mobile */}
-      <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 bg-emerald-500 rounded-full shrink-0">
+      <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 bg-emerald-500 rounded-full shrink-0 animate-scale-in transition-transform duration-200 hover:scale-105">
         <Zap size={16} className="text-white fill-white sm:w-[18px] sm:h-[18px]" />
       </div>
 
@@ -148,7 +152,8 @@ export function AssistantMessage({ content, isStreaming }: AssistantMessageProps
           bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-zinc-100
           rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl
           text-sm leading-relaxed break-words
-          ${isStreaming ? 'animate-pulse' : ''}
+          transition-all duration-200 hover:shadow-md
+          ${isStreaming ? 'animate-gentle-pulse' : ''}
         `}
       >
         {content ? (
@@ -162,9 +167,9 @@ export function AssistantMessage({ content, isStreaming }: AssistantMessageProps
           isStreaming && <span className="text-gray-400">...</span>
         )}
 
-        {/* Streaming indicator */}
+        {/* Streaming cursor indicator */}
         {isStreaming && content && (
-          <span className="inline-block w-2 h-2 ml-1 bg-emerald-500 rounded-full animate-pulse" />
+          <span className="inline-block w-0.5 h-4 ml-1 bg-emerald-500 rounded-sm animate-cursor-blink align-middle" />
         )}
       </div>
     </div>

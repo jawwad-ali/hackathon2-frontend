@@ -137,8 +137,8 @@ export function ToolStatus({ tool }: ToolStatusProps) {
       <div
         className={`
           flex flex-col gap-1 px-3 sm:px-4 py-2 sm:py-3 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl
-          ${isFailed ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'}
-          transition-colors duration-300
+          ${isFailed ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'}
+          transition-all duration-300
         `}
       >
         <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ export function ToolStatus({ tool }: ToolStatusProps) {
 
         {/* Tool arguments - show what's being processed */}
         {formattedArgs && !isFailed && (
-          <span className="text-xs text-blue-600/80 font-normal">
+          <span className="text-xs text-blue-600/80 dark:text-blue-400/80 font-normal">
             {formattedArgs}
           </span>
         )}

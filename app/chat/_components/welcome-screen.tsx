@@ -23,9 +23,9 @@ interface WelcomeScreenProps {
  */
 export function WelcomeScreen({ onPromptClick }: WelcomeScreenProps) {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12 px-4">
+    <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12 px-4 animate-fade-in">
       {/* Avatar - matches assistant avatar style */}
-      <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full mb-3 sm:mb-4">
+      <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full mb-3 sm:mb-4 animate-scale-in transition-transform duration-300 hover:scale-110">
         <Zap
           size={28}
           className="text-emerald-500 fill-emerald-500 sm:w-8 sm:h-8"
@@ -43,8 +43,8 @@ export function WelcomeScreen({ onPromptClick }: WelcomeScreenProps) {
       </p>
 
       {/* Example prompts - stack on mobile, wrap on larger screens */}
-      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 justify-center w-full sm:max-w-lg mb-4 sm:mb-6">
-        {EXAMPLE_PROMPTS.map((prompt) => (
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 justify-center w-full sm:max-w-lg mb-4 sm:mb-6 stagger-children">
+        {EXAMPLE_PROMPTS.map((prompt, index) => (
           <button
             key={prompt}
             type="button"
@@ -52,10 +52,13 @@ export function WelcomeScreen({ onPromptClick }: WelcomeScreenProps) {
             className="
               px-4 py-2 text-sm text-gray-600 dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800
               hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400
-              rounded-full transition-colors
+              rounded-full transition-all duration-200
               w-full sm:w-auto
               focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900
+              animate-message-appear opacity-0 hover:scale-105 hover:shadow-sm
+              active:scale-95
             "
+            style={{ animationDelay: `${index * 75}ms`, animationFillMode: 'forwards' }}
           >
             {prompt}
           </button>

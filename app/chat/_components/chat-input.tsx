@@ -53,7 +53,7 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit}>
       {/* Input Container - responsive padding */}
-      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800">
+      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 transition-all duration-200 focus-within:border-emerald-500 dark:focus-within:border-emerald-500 focus-within:shadow-sm">
         {/* Textarea - completely borderless with inline style override */}
         <textarea
           ref={textareaRef}
@@ -81,8 +81,7 @@ export function ChatInput({
             disabled={disabled}
             aria-label={disabled ? 'Sending message...' : 'Send message'}
             aria-busy={disabled}
-            className="flex items-center justify-center w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-400 disabled:hover:bg-gray-400"
-            style={{ outline: 'none' }}
+            className="flex items-center justify-center w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-400 dark:disabled:bg-zinc-600 disabled:hover:bg-gray-400 hover:scale-105 hover:shadow-md active:scale-95 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
           >
             {disabled ? (
               <div
@@ -90,7 +89,7 @@ export function ChatInput({
                 aria-hidden="true"
               />
             ) : (
-              <Send size={18} aria-hidden="true" />
+              <Send size={18} aria-hidden="true" className="transition-transform duration-200" />
             )}
           </button>
         </div>

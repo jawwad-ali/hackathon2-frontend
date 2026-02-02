@@ -167,10 +167,10 @@ The following were created before the ChatKit compatibility issue was discovered
 
 ### Final Polish
 
-- [ ] T028 Add dark mode support to all components (use Tailwind dark: variants)
-- [ ] T029 Add smooth transitions and subtle animations throughout UI
-- [ ] T030 Verify WCAG 2.1 AA accessibility compliance (focus states, aria labels, keyboard navigation)
-- [ ] T031 Run manual E2E test: complete happy path from welcome → send message → streaming response → new chat
+- [x] T028 Add dark mode support to all components (use Tailwind dark: variants)
+- [x] T029 Add smooth transitions and subtle animations throughout UI
+- [x] T030 Verify WCAG 2.1 AA accessibility compliance (focus states, aria labels, keyboard navigation)
+- [x] T031 Run manual E2E test: complete happy path from welcome → send message → streaming response → new chat
 
 ---
 

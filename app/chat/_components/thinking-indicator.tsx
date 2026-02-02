@@ -39,8 +39,8 @@ export function ThinkingIndicator({ visible }: ThinkingIndicatorProps) {
       </div>
 
       {/* Thinking text with animated dots */}
-      <div className="flex items-center gap-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-        <span className="text-sm text-gray-600">Thinking</span>
+      <div className="flex items-center gap-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 dark:bg-zinc-800 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl transition-colors duration-200">
+        <span className="text-sm text-gray-600 dark:text-zinc-400">Thinking</span>
         <span className="flex gap-0.5" aria-hidden="true">
           <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce-dot-1" />
           <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce-dot-2" />

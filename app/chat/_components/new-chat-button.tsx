@@ -28,14 +28,16 @@ export function NewChatButton({ onNewChat, disabled = false }: NewChatButtonProp
         w-9 h-9 sm:w-auto sm:h-auto
         sm:px-3 sm:py-2
         text-sm font-medium text-white
-        bg-gray-800 hover:bg-gray-700
-        rounded-lg transition-colors
+        bg-gray-800 hover:bg-gray-700 dark:bg-zinc-700 dark:hover:bg-zinc-600
+        rounded-lg transition-all duration-200
         disabled:opacity-50 disabled:cursor-not-allowed
-        focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
+        focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900
+        hover:scale-105 hover:shadow-md
+        active:scale-95
       "
       aria-label="Start a new chat"
     >
-      <Plus size={16} aria-hidden="true" />
+      <Plus size={16} aria-hidden="true" className="transition-transform duration-200 group-hover:rotate-90" />
       <span className="hidden sm:inline">New Chat</span>
     </button>
   );

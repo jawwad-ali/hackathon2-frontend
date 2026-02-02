@@ -23,7 +23,7 @@ export function FloatingActions({ onClearChat, onNewChat }: FloatingActionsProps
       {/* Clear Chat Button */}
       <button
         onClick={onClearChat}
-        className="flex items-center gap-2 px-4 py-3 bg-gray-800 hover:bg-gray-700 rounded-3xl shadow-md transition-all hover:scale-[1.02]"
+        className="flex items-center gap-2 px-4 py-3 bg-gray-800 dark:bg-zinc-700 hover:bg-gray-700 dark:hover:bg-zinc-600 rounded-3xl shadow-md dark:shadow-lg dark:shadow-black/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
         aria-label="Clear chat"
       >
         <Trash2 size={18} className="text-white shrink-0" />
@@ -35,7 +35,7 @@ export function FloatingActions({ onClearChat, onNewChat }: FloatingActionsProps
       {/* New Chat Button (Plus) */}
       <button
         onClick={onNewChat}
-        className="flex items-center justify-center w-12 h-12 bg-gray-800 hover:bg-gray-700 rounded-full shadow-md transition-all hover:scale-105"
+        className="flex items-center justify-center w-12 h-12 bg-gray-800 dark:bg-zinc-700 hover:bg-gray-700 dark:hover:bg-zinc-600 rounded-full shadow-md dark:shadow-lg dark:shadow-black/20 transition-all duration-200 hover:scale-105 active:scale-95"
         aria-label="New chat"
       >
         <Plus size={20} className="text-white" />

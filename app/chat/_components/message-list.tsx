@@ -45,6 +45,10 @@ export function MessageList({
     <div
       ref={scrollRef}
       className="flex-1 overflow-y-auto p-3 sm:p-6"
+      role="log"
+      aria-label="Chat messages"
+      aria-live="polite"
+      aria-relevant="additions"
     >
       <div className="flex flex-col gap-4 sm:gap-6">
         {/* Empty state - Welcome screen with example prompts (T019-T021) */}

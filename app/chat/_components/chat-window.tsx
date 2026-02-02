@@ -75,10 +75,10 @@ export function ChatWindow({ className }: ChatWindowProps) {
           <button
             onClick={handleClearChat}
             disabled={isStreaming}
-            className="flex items-center justify-center sm:justify-start gap-0 sm:gap-2 w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-sm font-medium text-gray-600 dark:text-zinc-400 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center sm:justify-start gap-0 sm:gap-2 w-9 h-9 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-sm font-medium text-gray-600 dark:text-zinc-400 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
             aria-label="Clear chat"
           >
-            <Trash2 size={16} aria-hidden="true" />
+            <Trash2 size={16} aria-hidden="true" className="transition-transform duration-200" />
             <span className="hidden sm:inline">Clear Chat</span>
           </button>
 
